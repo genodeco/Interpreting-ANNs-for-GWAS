@@ -1,7 +1,7 @@
 # Interpreting-ANNs-for-GWAS
 
 ## Description
-This is the repository with scripts explained in the manuscript "Interpreting artificial neural networks to detect genome-wide association signals for complex traits".
+This is the repository with scripts explained in the manuscript "[Interpreting artificial neural networks to detect genome-wide association signals for complex traits](https://arxiv.org/abs/2407.18811)".
 
 ## Installation
 
@@ -77,3 +77,18 @@ python 3b_get_pm_mas.py
 
 #Calculates adjusted mean attribution score -AMAS- and obtains potentially associated loci (PAL) and outputs a Manhattan plot of AMAS with denoted PAL (PAL_AMAS_Common.png). You can change MAS_list variable to define from which method to get PAL (IG, PM or SM).  
 python 4_get_pal.py
+```
+
+### Citation
+
+```bibtex
+@misc{yelmen_interpreting_2024,
+	title = {Interpreting artificial neural networks to detect genome-wide association signals for complex traits},
+	url = {http://arxiv.org/abs/2407.18811},
+	publisher = {arXiv},
+	author = {Yelmen, Burak and Alver, Maris and Team, Estonian Biobank Research and Jay, Flora and Milani, Lili},
+	month = jul,
+	year = {2024},
+	note = {arXiv:2407.18811 [cs, q-bio]},
+	keywords = {Computer Science - Machine Learning, Quantitative Biology - Genomics, Quantitative Biology - Quantitative Methods},
+}
