@@ -1,7 +1,7 @@
 # Interpreting-ANNs-for-GWAS
 
 ## Description
-This is the repository with scripts explained in the manuscript "[Interpreting artificial neural networks to detect genome-wide association signals for complex traits](https://arxiv.org/abs/2407.18811)".
+This is the repository with code explained in the manuscript "[Interpreting artificial neural networks to detect genome-wide association signals for complex traits](https://arxiv.org/abs/2407.18811)". This repo is still work in progress and will be updated with more details soon.
 
 ## Installation
 
