@@ -6,6 +6,7 @@ import pandas as pd
 from scipy.stats import halfnorm
 import matplotlib.pyplot as plt
 
+out_dir = "mock_output"
 MAS_null = np.load(f"{out_dir}/MAS_NULL_ig_list.npy")
 #MAS_null = np.load(f"{out_dir}/MAS_NULL_sm_list.npy")
 params = halfnorm.fit(MAS_null.flatten())
