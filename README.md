@@ -77,6 +77,15 @@ python 3b_get_pm_mas.py
 
 #Calculates adjusted mean attribution score -AMAS- and obtains potentially associated loci (PAL) and outputs a Manhattan plot of AMAS with denoted PAL (PAL_AMAS_Common.png). You can change MAS_list variable to define from which method to get PAL (IG, PM or SM).  
 python 4_get_pal.py
+
+#Trains null models with shuffled phenotype labels and outpus trained models (s{seed}_e{epoch}_NULL.model) and  loss plots (s{seed}_e{epoch}loss_NULL.pdf).
+python 5_train_null_model.py
+
+#Calculates mean attribution score -MAS- using integrated gradient (IG) and saliency map (SM) approaches for the trained null models and outputs these files (MAS_NULL_ig_list.npy, MAS_NULL_sm_list.npy).  
+python 6_get_ig_sm_null_mas.py
+
+#Calculates p-values for the detected PAL based on AMAS and outputs p-value file (AMAS_pvals.npy).  
+python 7_get_amas_pvals.py
 ```
 
 ### Citation

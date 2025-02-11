@@ -18,21 +18,7 @@ inpt_ = "mock_genomes.npy" #input genotype file in numpy npy format
 lr = 0.0001 #learning rate
 init_dropout = 0.50 #amount initial random masking of input data
 out_dir = "mock_output" #output directory
-status_ = "mock_case_control_status.npy" #input case/control status file for each corresponding genotype in genotype file
 gpu = 0 #number of gpus - only 1 gpu scenario was tested
-
-##Input data preperation and train/test split
-df = np.load(inpt_, allow_pickle=True)
-status = np.load(status_, allow_pickle=True)
-status = status.reshape(-1,1)
-df = np.concatenate((status, df), axis=1)
-df = df.astype(int)
-df_case = df[df[:,0]==1].copy()
-df_control = df[df[:,0]==0].copy()
-df = np.concatenate((df_control, df_case))
-df_labels = df[:,0]
-df_labels = df_labels.astype(float)
-df = df[:,1:]
 
 device = torch.device("cuda:0" if (torch.cuda.is_available() and gpu > 0) else "cpu")
 classifi = Classifier(data_shape=df.shape[1], init_dropout=init_dropout)
@@ -41,11 +27,6 @@ if (device.type == 'cuda') and (gpu > 1):
 classifi.to(device)
 optimizer = torch.optim.Adam(classifi.parameters(), lr=lr, weight_decay=1e-3)
 
-#Get checkpoints for models trained with different seeds
-checkpoints = []
-for i in range(10):
-    checkpoints.append(f"{out_dir}/s{i}_e49.model")
-    
 
 classifi.eval()
 
@@ -54,7 +35,25 @@ MAS_sm_list = []
 
 
 #For each trained model in previous step, obtain mean attribution score (MAS) over multiple samples
-for check in checkpoints:
+for i_check in range(10):
+    check = f"{out_dir}/s{i_check}_e49_NULL.model"
+
+    status_ = f"{out_dir}/null_labels_s{seed}.npy"
+
+    ##Input data preperation and train/test split
+    df = np.load(inpt_, allow_pickle=True)
+    status = np.load(status_, allow_pickle=True)
+    status = status.reshape(-1,1)
+    df = np.concatenate((status, df), axis=1)
+    df = df.astype(int)
+    df_case = df[df[:,0]==1].copy()
+    df_control = df[df[:,0]==0].copy()
+    df = np.concatenate((df_control, df_case))
+    df_labels = df[:,0]
+    df_labels = df_labels.astype(float)
+    df = df[:,1:]
+    
+    
     torch.cuda.empty_cache()
     checkpoint = torch.load(check, map_location=device)
 
@@ -100,5 +99,5 @@ MAS_ig_list = np.array(MAS_ig_list)
 MAS_sm_list = np.array(MAS_sm_list)
 
 #Save MAS obtained via IG and SM approaches
-np.save(f"{out_dir}/MAS_ig_list.npy", MAS_ig_list)
-np.save(f"{out_dir}/MAS_sm_list.npy", MAS_sm_list)
+np.save(f"{out_dir}/MAS_NULL_ig_list.npy", MAS_ig_list)
+np.save(f"{out_dir}/MAS_NULL_sm_list.npy", MAS_sm_list)

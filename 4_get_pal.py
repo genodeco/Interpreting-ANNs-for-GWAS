@@ -12,23 +12,18 @@ import random
 from sklearn import metrics
 from collections import Counter
 
-inpt = "mock_genomes.npy" #input genotype file in numpy npy format
+inpt_ = "mock_genomes.npy" #input genotype file in numpy npy format
 out_dir = "mock_output" #output directory
 thresh = 99.99 #threshold for assigning significance
 
 #Input data
-df = np.load(inpt, allow_pickle=True)
+df = np.load(inpt_, allow_pickle=True)
 df = df.astype(int)
 
 #Load MAS list from previous script
 MAS_list = np.load(f"{out_dir}/MAS_ig_list.npy")
 #MAS_list = np.load(f"{out_dir}/MAS_sm_list.npy")
 #MAS_list = np.load(f"{out_dir}/MAS_pm_list.npy")
-
-#Min-max scaling
-for i in range(MAS_list.shape[0]):
-    scaled_data = (MAS_list[i,:] - MAS_list[i,:].min()) / (MAS_list[i,:].max() - MAS_list[i,:].min())  
-    MAS_list[i,:] = scaled_data
     
 #Get detected positions above threshold for each trained model
 MAS_detected = []
@@ -43,7 +38,7 @@ MAS_detected = np.array(MAS_detected)
 for i in range(MAS_detected.shape[0]):
     print(i)
     for i2 in range(MAS_detected.shape[1]):
-        for ix in range(-99,100):
+        for ix in range(-20,21):
             if ix == 0:
                 continue
             if MAS_detected[i][i2]+ix >= df.shape[1]:
@@ -71,6 +66,9 @@ for i in range(len(detected)):
 #PAL_AMAS consists of detected positions which are above threshold after weighting
 PAL_AMAS = (AMAS > np.percentile(mean_MAS, thresh)).nonzero()[0]  
 
+np.save(f"{out_dir}/AMAS_ig_list.npy", AMAS)
+np.save(f"{out_dir}/PAL_AMAS_ig.npy", PAL_AMAS)
+
 #Manhattan plot of AMAS with colored PAL_AMAS and PAL_Common positions
 fig = plt.figure(figsize=(18,6))
 plt.scatter(range(len(mean_MAS)), mean_MAS, color='silver')
@@ -78,6 +76,6 @@ plt.scatter(PAL_common, [mean_MAS[i] for i in PAL_common], marker='o', s=150, co
 plt.scatter(PAL_AMAS, [mean_MAS[i] for i in PAL_AMAS], marker='o', s=50, color='black', label='PAL_AMAS')
 plt.axhline(y=np.percentile(mean_MAS, thresh), color='r', linestyle='--')
 plt.xlabel('SNPs', fontsize=15)
-plt.ylabel('-log10(P)', fontsize=15)
+plt.ylabel('AMAS', fontsize=15)
 plt.legend(loc='upper right', bbox_to_anchor=(1, 1), fontsize=15)
 fig.savefig(f'{out_dir}/PAL_AMAS_Common.png', format='png', dpi=300)
