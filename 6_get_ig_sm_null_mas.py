@@ -19,6 +19,7 @@ lr = 0.0001 #learning rate
 init_dropout = 0.50 #amount initial random masking of input data
 out_dir = "mock_output" #output directory
 gpu = 0 #number of gpus - only 1 gpu scenario was tested
+df = np.load(inpt_, allow_pickle=True)
 
 device = torch.device("cuda:0" if (torch.cuda.is_available() and gpu > 0) else "cpu")
 classifi = Classifier(data_shape=df.shape[1], init_dropout=init_dropout)
@@ -38,7 +39,7 @@ MAS_sm_list = []
 for i_check in range(10):
     check = f"{out_dir}/s{i_check}_e49_NULL.model"
 
-    status_ = f"{out_dir}/null_labels_s{seed}.npy"
+    status_ = f"{out_dir}/null_labels_s{i_check}.npy"
 
     ##Input data preperation and train/test split
     df = np.load(inpt_, allow_pickle=True)
