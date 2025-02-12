@@ -6,6 +6,10 @@ import pandas as pd
 from scipy.stats import halfnorm
 import matplotlib.pyplot as plt
 
+
+inpt_ = "mock_genomes.npy" #input genotype file in numpy npy format
+df = np.load(inpt_, allow_pickle=True)
+df = df.astype(int)
 out_dir = "mock_output"
 MAS_null = np.load(f"{out_dir}/MAS_NULL_ig_list.npy")
 #MAS_null = np.load(f"{out_dir}/MAS_NULL_sm_list.npy")
