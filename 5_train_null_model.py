@@ -44,6 +44,8 @@ df_test_labels = df_test_labels.astype(float)
 df = df[:,1:]
 df_test = df_test[:,1:]
 
+np.save(f"{out_dir}/null_training_data.npy", df)
+
 #Train null models with different seeds
 seeds = list(range(0,10))
 for seed in seeds:
