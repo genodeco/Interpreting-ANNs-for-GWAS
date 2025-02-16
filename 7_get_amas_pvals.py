@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from scipy.stats import halfnorm
 import matplotlib.pyplot as plt
+from collections import Counter
 
 
 inpt_ = "mock_genomes.npy" #input genotype file in numpy npy format
@@ -80,7 +81,7 @@ for boot in range(boot_num):
 
     MAS_detected = []
     for i in range(MAS_list.shape[0]):
-        detected = (MAS_list[i,:] > np.percentile(MAS_list[i,:], thresh)).nonzero()[0] 
+        detected = (MAS_list[i,:] > np.percentile(MAS_list[i,:], threshold)).nonzero()[0] 
         MAS_detected.append(detected)
         
     MAS_detected_common_LD_signal = MAS_detected.copy()        
@@ -107,7 +108,7 @@ for boot in range(boot_num):
     mean_MAS = np.mean(MAS_list, axis=0)
 
     
-    detected = (mean_MAS > np.percentile(mean_MAS, thresh)).nonzero()[0]  
+    detected = (mean_MAS > np.percentile(mean_MAS, threshold)).nonzero()[0]  
     AMAS_boot = mean_MAS.copy()
     for i in range(len(detected)):
         AMAS_boot[detected[i]] = AMAS_boot[detected[i]] * (element_counts[detected[i]]/MAS_list.shape[0])
@@ -115,7 +116,7 @@ for boot in range(boot_num):
     err_temp = []
     for x in range(len(PAL_AMAS)):
         
-        temp_sum = np.sum(AMAS_boot > AMAS[PAL_AMAS[x]])
+        temp_sum = np.sum(AMAS_boot > AMAS_boot[PAL_AMAS[x]])
         err_temp.append(temp_sum)
 
     err.append(err_temp)

@@ -14,10 +14,10 @@ from collections import Counter
 from captum.attr import (IntegratedGradients, Saliency)
 from model import *
 
-inpt_ = "mock_genomes.npy" #input genotype file in numpy npy format
+out_dir = "mock_output" #output directory
+inpt_ = f"{out_dir}/null_training_data.npy" #input genotype file in numpy npy format
 lr = 0.0001 #learning rate
 init_dropout = 0.50 #amount initial random masking of input data
-out_dir = "mock_output" #output directory
 gpu = 0 #number of gpus - only 1 gpu scenario was tested
 df = np.load(inpt_, allow_pickle=True)
 
