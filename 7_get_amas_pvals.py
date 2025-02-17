@@ -53,6 +53,7 @@ fig.savefig(f'{out_dir}/half_norm_fit_tail90_QQ.png', format='png', dpi=300)
 
 PAL_AMAS = np.load(f"{out_dir}/PAL_AMAS_ig.npy")
 MAS_main = np.load(f"{out_dir}/MAS_ig_list.npy")
+AMAS = np.load(f"{out_dir}/AMAS_ig_list.npy")
 
 scale = params[1]
 
@@ -117,7 +118,7 @@ for boot in range(boot_num):
     err_temp = []
     for x in range(len(PAL_AMAS)):
         
-        temp_sum = np.sum(AMAS_boot > AMAS_boot[PAL_AMAS[x]])
+        temp_sum = np.sum(AMAS_boot > AMAS[PAL_AMAS[x]])
         err_temp.append(temp_sum)
 
     err.append(err_temp)
