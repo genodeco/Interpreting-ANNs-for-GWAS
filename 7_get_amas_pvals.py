@@ -14,6 +14,7 @@ df = df.astype(int)
 out_dir = "mock_output"
 MAS_null = np.load(f"{out_dir}/MAS_NULL_ig_list.npy")
 #MAS_null = np.load(f"{out_dir}/MAS_NULL_sm_list.npy")
+thresh = 99.99
 params = halfnorm.fit(MAS_null.flatten())
 
 fig = plt.figure(figsize=(8, 6))
@@ -81,7 +82,7 @@ for boot in range(boot_num):
 
     MAS_detected = []
     for i in range(MAS_list.shape[0]):
-        detected = (MAS_list[i,:] > np.percentile(MAS_list[i,:], threshold)).nonzero()[0] 
+        detected = (MAS_list[i,:] > np.percentile(MAS_list[i,:], thresh)).nonzero()[0] 
         MAS_detected.append(detected)
         
     MAS_detected_common_LD_signal = MAS_detected.copy()        
@@ -108,7 +109,7 @@ for boot in range(boot_num):
     mean_MAS = np.mean(MAS_list, axis=0)
 
     
-    detected = (mean_MAS > np.percentile(mean_MAS, threshold)).nonzero()[0]  
+    detected = (mean_MAS > np.percentile(mean_MAS, thresh)).nonzero()[0]  
     AMAS_boot = mean_MAS.copy()
     for i in range(len(detected)):
         AMAS_boot[detected[i]] = AMAS_boot[detected[i]] * (element_counts[detected[i]]/MAS_list.shape[0])
